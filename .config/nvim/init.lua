@@ -44,19 +44,6 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.opt.relativenumber = true
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldenable = false
-
-vim.opt.shiftwidth = 4
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.expandtab = true
-
-
--- Keep screen 4 lines above/below cursors
-vim.opt.scrolloff = 4
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
@@ -86,10 +73,6 @@ require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
-
-  -- coping
-  -- "zbirenbaum/copilot.lua",
-  -- 'github/copilot.vim',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
@@ -125,7 +108,7 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
 
       -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
+      -- 'rafamadriz/friendly-snippets',
     },
   },
 
@@ -267,6 +250,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+      'tree-sitter-grammars/tree-sitter-svelte'
     },
     build = ':TSUpdate',
   },
@@ -675,3 +659,27 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+--
+-- USER WRITTEN CONFIGURATION
+
+
+vim.opt.relativenumber = true
+vim.opt.foldexpr = "lsp"
+vim.opt.foldenable = false
+
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
+vim.opt.smarttab = false
+
+vim.opt.scrolloff = 4
+
+vim.cmd.colorscheme 'catppuccin'
+
+vim.opt.guicursor = {
+  'n-v-c:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
+  'i-ci:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
+  'r:hor50-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100'
+}
