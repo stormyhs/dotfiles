@@ -96,6 +96,10 @@ require('lazy').setup({
     },
   },
 
+  { -- Icons for LSP completion items
+    'onsails/lspkind.nvim'
+  },
+
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -110,10 +114,50 @@ require('lazy').setup({
       -- Adds a number of user-friendly snippets
       -- 'rafamadriz/friendly-snippets',
     },
+    
+    -- Set autocomplete max options to 1
+    config = function()
+      require('cmp').setup {
+        completion = {
+          keyword_length = 2,
+        },
+
+        view = {
+          docs = {
+            auto_open = true,
+          },
+        },
+
+        window = {
+          documentation = {
+            max_width = 50,
+          },
+        },
+
+        formatting = {
+          fields = { "kind", "abbr", "menu" },
+          format = function(entry, vim_item)
+            local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 20 })(entry, vim_item)
+            local strings = vim.split(kind.kind, "%s", { trimempty = true })
+
+            kind.kind = " " .. (strings[1] or "") .. " "
+
+            -- kind.menu = "    (" .. (strings[2] or "") .. ")"
+            kind.menu = ""
+
+            return kind
+          end,
+
+          expandable_indicator = true
+        }
+
+      }
+    end,
   },
 
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim', opts = {} },
+
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -196,6 +240,10 @@ require('lazy').setup({
     config = function()
       vim.cmd.colorscheme 'onedark'
     end,
+  },
+
+  { -- Monokai theme
+    'loctvl842/monokai-pro.nvim'
   },
 
   {
@@ -663,6 +711,40 @@ cmp.setup {
 --
 -- USER WRITTEN CONFIGURATION
 
+vim.opt.guicursor = {
+  'n-v-c:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
+  'i-ci:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
+  'r:hor50-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100'
+}
+
+vim.api.nvim_create_autocmd({'WinNew', 'VimEnter'}, {
+    pattern = '*',
+    callback = function()
+        vim.w.my_foldlevel = 1
+    end
+})
+
+vim.keymap.set('n', 'zM', function()
+    vim.w.my_foldlevel = 0
+    require('ufo').closeFoldsWith(vim.w.my_foldlevel)
+end)
+
+vim.keymap.set('n', 'zR', function()
+    vim.w.my_foldlevel = 5
+    require('ufo').closeFoldsWith(vim.w.my_foldlevel)
+end)
+
+vim.keymap.set('n', 'zr', function()
+    vim.w.my_foldlevel = vim.w.my_foldlevel + 1
+    require('ufo').closeFoldsWith(vim.w.my_foldlevel)
+end)
+
+vim.keymap.set('n', 'zm', function()
+    vim.w.my_foldlevel = math.max(vim.w.my_foldlevel - 1, 0)
+
+    require('ufo').closeFoldsWith(vim.w.my_foldlevel)
+end)
+
 
 vim.opt.relativenumber = true
 vim.opt.foldexpr = "lsp"
@@ -676,10 +758,7 @@ vim.opt.smarttab = false
 
 vim.opt.scrolloff = 4
 
-vim.cmd.colorscheme 'catppuccin'
+-- vim.cmd.colorscheme 'catppuccin'
+-- vim.cmd.colorscheme 'onedark'
+vim.cmd.colorscheme 'monokai-pro-classic'
 
-vim.opt.guicursor = {
-  'n-v-c:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
-  'i-ci:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
-  'r:hor50-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100'
-}
