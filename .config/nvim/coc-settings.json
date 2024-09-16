@@ -1,0 +1,12 @@
+{
+  "ignore_dirs": [
+    "dist",
+    "node_modules"
+  ],
+  "jedi.settings": {
+    "completion.disableSnippets": false,
+    "diagnostics.disable": [
+        "unknown-variable-type"
+    ]
+  }
+}

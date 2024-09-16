@@ -114,7 +114,7 @@ require('lazy').setup({
       -- Adds a number of user-friendly snippets
       -- 'rafamadriz/friendly-snippets',
     },
-    
+
     -- Set autocomplete max options to 1
     config = function()
       require('cmp').setup {
@@ -580,6 +580,7 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
+--[[
 -- document existing key chains
 require('which-key').register {
   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
@@ -591,12 +592,14 @@ require('which-key').register {
   ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 }
+
 -- register which-key VISUAL mode
 -- required for visual <leader>hs (hunk stage) to work
 require('which-key').register({
   ['<leader>'] = { name = 'VISUAL <leader>' },
   ['<leader>h'] = { 'Git [H]unk' },
 }, { mode = 'v' })
+]]--
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
@@ -707,8 +710,9 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
---
---
+
+
+
 -- USER WRITTEN CONFIGURATION
 
 vim.opt.guicursor = {
@@ -756,7 +760,7 @@ vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 vim.opt.smarttab = false
 
-vim.opt.scrolloff = 4
+vim.opt.scrolloff = 3
 
 -- vim.cmd.colorscheme 'catppuccin'
 -- vim.cmd.colorscheme 'onedark'
