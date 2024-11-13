@@ -764,5 +764,131 @@ vim.opt.scrolloff = 3
 
 -- vim.cmd.colorscheme 'catppuccin'
 -- vim.cmd.colorscheme 'onedark'
-vim.cmd.colorscheme 'monokai-pro-classic'
+vim.cmd.colorscheme 'monokai-pro-spectrum'
 
+vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
+
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+  pattern = {"*.myst"},
+  callback = function()
+    vim.bo.filetype = "ts"
+  end,
+})
+
+--[[
+local lspconfig = require 'lspconfig'
+
+lspconfig.myst.setup {
+    cmd = { "/home/stormy/code/myst_lsp/target/debug/myst_lsp" }, -- path to your custom binary
+    filetypes = { "myst" }, -- replace with relevant file types
+    root_dir = function(fname)
+      return vim.fn.getcwd() -- or customize the project root logic
+    end,
+    -- Optional: You can add additional LSP settings like on_attach or capabilities
+}-- Create an event handler for the FileType autocommand
+
+vim.api.nvim_create_autocmd('FileType', {
+  -- This handler will fire when the buffer's 'filetype' is "python"
+  pattern = 'myst',
+  callback = function(args)
+    vim.lsp.start({
+      name = 'Myst LSP',
+      cmd = {'/home/stormy/code/myst_lsp/target/debug/myst_lsp'},
+      -- Set the "root directory" to the parent directory of the file in the
+      -- current buffer (`args.buf`) that contains either a "setup.py" or a
+      -- "pyproject.toml" file. Files that share a root directory will reuse
+      -- the connection to the same LSP server.
+      -- root_dir = vim.fs.root(args.buf, {'setup.py', 'pyproject.toml'}),
+    })
+  end,
+})
+vim.lsp.set_log_level("debug")
+--]]
+
+local dap = require("dap")
+
+dap.adapters.codelldb = {
+  type = 'server',
+  port = "${port}",
+  executable = {
+    -- Change this to your path!
+    command = '/home/stormy/code/codelldb/extension/adapter/codelldb',
+    args = {"--port", "${port}"},
+  }
+}
+
+dap.configurations.rust= {
+  {
+    name = "Launch file",
+    type = "codelldb",
+    request = "launch",
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/myst', 'file')
+    end,
+    args = {
+      "--debug",
+    },
+    cwd = '${workspaceFolder}',
+    stopOnEntry = false,
+  },
+}
+
+vim.keymap.set('n', '<Leader>dc', function() dap.continue() end)
+vim.keymap.set('n', '<F10>', function() dap.step_over() end)
+vim.keymap.set('n', '<F11>', function() dap.step_into() end)
+vim.keymap.set('n', '<F12>', function() dap.step_out() end)
+vim.keymap.set('n', '<Leader>db', function() dap.toggle_breakpoint() end)
+vim.keymap.set('n', '<Leader>dl', function() dap.run_last() end)
+-- lua require'dap'.repl.open()
+vim.keymap.set('n', '<Leader>do', function() require('dap').repl.open() end)
+
+-- vim.keymap.set('n', '<Leader>df', function() require("dapui").float_element('scopes', { enter = true }) end)
+vim.keymap.set('n', '<C-p>', function()
+  local line = 'println!("{:?}", );'
+  local cursor_pos = vim.api.nvim_win_get_cursor(0) -- Get current cursor position
+  local row, col = cursor_pos[1], cursor_pos[2]     -- Row and column
+
+  -- Get the current line content
+  local current_line = vim.api.nvim_get_current_line()
+
+  -- Insert `println!("{:?}", )` at the cursor position within the current line
+  local new_line = current_line:sub(1, col) .. line .. current_line:sub(col + 1)
+  vim.api.nvim_set_current_line(new_line)
+
+  -- Place the cursor inside the parentheses
+  vim.api.nvim_win_set_cursor(0, { row, col + 16 })
+
+  -- Enter insert mode
+  vim.api.nvim_input('a')
+end)
+
+-- poor man's comment.
+vim.keymap.set('n', '<C-c>', '^i// <Esc>')
+
+--[[
+local function iabbrev(inp, str)
+    if #inp <= 0 and #str <= 0 then
+        return
+    end
+
+    vim.cmd("iabbrev " .. inp .. " " .. str)
+end
+
+local BEG = '<home>'
+local enter = "<enter>"
+local cmdmode = "<esc>:"
+local eatchar = cmdmode .. "=Eatchar('\\s')<CR>"
+
+-- iabbrev("scr", "<script lang=\"ts\">" .. enter .. "</script>" .. BEG .. enter .. "")
+-- iabbrev("stl", "<style>" .. enter .. "</style>" .. BEG .. enter)
+--]]
+
+for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
+    local default_diagnostic_handler = vim.lsp.handlers[method]
+    vim.lsp.handlers[method] = function(err, result, context, config)
+        if err ~= nil and err.code == -32802 then
+            return
+        end
+        return default_diagnostic_handler(err, result, context, config)
+    end
+end
