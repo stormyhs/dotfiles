@@ -3,8 +3,8 @@
 
 
 local themes = {
-    'tokyonight-day',
     'monokai-pro-spectrum',
+    'tokyonight-day',
 }
 
 local themeIndex = 1
