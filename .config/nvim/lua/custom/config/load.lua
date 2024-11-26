@@ -28,6 +28,4 @@ if files then
 		end
 		i = i + 1
 	end
-
-	require("notify")("Loaded " .. i .. " custom config files.\n\nHappy hacking!    - stormy")
 end

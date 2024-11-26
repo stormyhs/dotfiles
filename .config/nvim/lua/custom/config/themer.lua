@@ -1,17 +1,16 @@
 
 -- Use <C-t> to switch between Light and Dark theme
 
-local isDarkTheme = true
+
+local themes = {
+    'tokyonight-day',
+    'monokai-pro-spectrum',
+}
+
+local themeIndex = 1
 
 vim.keymap.set('n', '<C-t>', function()
-    if isDarkTheme then
-        vim.cmd('colorscheme tokyonight-day')
-        isDarkTheme = not isDarkTheme
-        require("notify").notify("Light theme", "info", {title="Theme", render="compact", icon="🌞"})
-        return
-    end
-
-    vim.cmd('colorscheme monokai-pro-spectrum')
-    require("notify").notify("Dark theme", "info", {title="Theme", render="compact", icon="🌙"})
-    isDarkTheme = not isDarkTheme
+    themeIndex = themeIndex % #themes + 1
+    vim.cmd('colorscheme ' .. themes[themeIndex])
+    require("notify")("Theme: " .. themes[themeIndex], "info", {title = "Themer"})
 end)
