@@ -13,6 +13,15 @@ vim.keymap.set("ia", "sscr", function()
     vim.api.nvim_input("<CR><Esc>ki    ")
 end)
 
+-- Svelte style tag
+vim.keymap.set("ia", "sstl", function()
+    vim.api.nvim_set_current_line([[<style></style>]])
+    vim.api.nvim_input("<BS>")
+    vim.cmd("normal! $F<")
+    vim.api.nvim_input("<CR>")
+    vim.api.nvim_input("<CR><Esc>ki    ")
+end)
+
 -- Rust debug print on selected text
 vim.keymap.set("v", "<C-p>", function()
     vim.api.nvim_input([[yoprintln!("{:?}", );<Esc>hhp]])

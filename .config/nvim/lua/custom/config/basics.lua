@@ -12,3 +12,9 @@ vim.opt.smarttab = false
 vim.opt.tabstop = 4
 
 vim.opt.scrolloff = 3
+
+-- Save on <C-s>
+vim.keymap.set("n", "<C-s>", ":w<CR>")
+
+-- Close window on <C-q>
+vim.keymap.set("n" , "<C-q>", "<C-w>q")
