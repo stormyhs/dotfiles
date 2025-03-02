@@ -75,7 +75,7 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',
+  -- 'tpope/vim-sleuth',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -711,7 +711,8 @@ cmp.setup {
 -- vim: ts=2 sts=2 sw=2 et
 
 -- USER WRITTEN CONFIGURATION
-vim.cmd.colorscheme 'monokai-pro-spectrum'
+-- vim.cmd.colorscheme 'monokai-pro-spectrum'
+vim.cmd.colorscheme 'oxocarbon'
 
 -- I've moved my custom stuff into /custom/config for easier management.
 require("custom.config.load")

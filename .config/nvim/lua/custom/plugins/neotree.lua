@@ -8,18 +8,29 @@ return {
       -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
     },
     config = function()
-    require("neo-tree").setup({
-      close_if_last_window = true,
-      window = {
-        width = 25,
-      },
-      filesystem = {
-        follow_current_file = {
-          enabled = true,
-          leave_dirs_open = false
-        }
-      }
-    })
+        require("neo-tree").setup({
+            close_if_last_window = true,
+            window = {
+                width = 25,
+            },
+            filesystem = {
+                follow_current_file = {
+                    enabled = true,
+                    leave_dirs_open = false
+                },
+                filtered_items = {
+                    visible = false,
+                    hide_dotfiles = true,
+                    hide_gitignored = true,
+                }
+            },
+
+            default_component_configs = {
+                name = {
+                    trailing_slash = true,
+                }
+            }
+        })
     end
 }
 
