@@ -149,8 +149,7 @@ require('lazy').setup({
           end,
 
           expandable_indicator = true
-        }
-
+        },
       }
     end,
   },
@@ -238,7 +237,7 @@ require('lazy').setup({
     'navarasu/onedark.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme 'monokai-pro-spectrum'
     end,
   },
 
@@ -253,7 +252,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'auto',
         component_separators = '|',
         section_separators = '',
       },
@@ -636,6 +635,7 @@ require('neodev').setup()
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = false
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- Ensure the servers above are installed
@@ -666,7 +666,7 @@ luasnip.config.setup {}
 cmp.setup {
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+      -- luasnip.lsp_expand(args.body)
     end,
   },
   completion = {
@@ -702,8 +702,13 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+        {
+            name = 'nvim_lsp',
+            entry_filter = function(entry, ctx)
+                return require("cmp").lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+            end,
+        },
+    -- { name = 'luasnip' },
   },
 }
 
@@ -712,7 +717,11 @@ cmp.setup {
 
 -- USER WRITTEN CONFIGURATION
 -- vim.cmd.colorscheme 'monokai-pro-spectrum'
-vim.cmd.colorscheme 'oxocarbon'
+-- vim.cmd.colorscheme 'oxocarbon'
+-- vim.cmd.colorscheme 'auto'
 
 -- I've moved my custom stuff into /custom/config for easier management.
+
+vim.g.instant_username = "stormy"
+
 require("custom.config.load")

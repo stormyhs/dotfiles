@@ -3,9 +3,8 @@
 
 
 local themes = {
-    'oxocarbon',
     'monokai-pro-spectrum',
-    'tokyonight-day',
+    'catppuccin-latte',
 }
 
 local themeIndex = 1
@@ -13,7 +12,7 @@ local themeIndex = 1
 vim.keymap.set('n', '<C-t>', function()
     themeIndex = themeIndex % #themes + 1
     vim.cmd('colorscheme ' .. themes[themeIndex])
-    if themes[themeIndex] == "tokyonight-day" then
+    if themes[themeIndex] == "catppuccin-latte" then
         vim.cmd('set background=light')
     else
         vim.cmd('set background=dark')

@@ -22,7 +22,10 @@ return {
                     visible = false,
                     hide_dotfiles = true,
                     hide_gitignored = true,
-                }
+                    never_show = {
+                        "node_modules"
+                    }
+                },
             },
 
             default_component_configs = {
