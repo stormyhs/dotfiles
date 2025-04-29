@@ -1,21 +1,22 @@
-
--- Use <C-t> to switch between Light and Dark theme
-
+-- Use <C-t> to switch through `themes`. Add as many as you'd like, that is in fact an array!
 
 local themes = {
-    'monokai-pro-spectrum',
-    'catppuccin-latte',
+	{ name = "monokai-pro-spectrum", mode = "dark" },
+	{ name = "tokyonight-night", mode = "dark" },
+	{ name = "tokyonight-day", mode = "light" },
 }
 
-local themeIndex = 1
+local themeIndex = 1 -- lua
 
-vim.keymap.set('n', '<C-t>', function()
-    themeIndex = themeIndex % #themes + 1
-    vim.cmd('colorscheme ' .. themes[themeIndex])
-    if themes[themeIndex] == "catppuccin-latte" then
-        vim.cmd('set background=light')
-    else
-        vim.cmd('set background=dark')
-    end
-    require("notify")("Theme: " .. themes[themeIndex], "info", {title = "Themer"})
+vim.cmd("colorscheme " .. themes[themeIndex].name)
+vim.cmd("set background=" .. themes[themeIndex].mode)
+
+vim.keymap.set("n", "<C-t>", function()
+	themeIndex = themeIndex % #themes + 1
+
+	vim.cmd("colorscheme " .. themes[themeIndex].name)
+	vim.cmd("set background=" .. themes[themeIndex].mode)
+
+	require("notify")("Theme: " .. themes[themeIndex].name, "info", { title = "Themer" })
 end)
+

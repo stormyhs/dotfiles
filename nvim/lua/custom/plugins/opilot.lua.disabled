@@ -1,0 +1,6 @@
+return {
+    dir = "/home/stormy/code/opilot",
+    config = function()
+        require("my-plugin").setup()
+    end,
+}

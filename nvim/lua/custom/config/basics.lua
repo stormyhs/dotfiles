@@ -1,4 +1,3 @@
-
 -- Some basic neccesities
 
 vim.opt.relativenumber = true
@@ -17,4 +16,4 @@ vim.opt.scrolloff = 3
 vim.keymap.set("n", "<C-s>", ":w<CR>")
 
 -- Close window on <C-q>
-vim.keymap.set("n" , "<C-q>", "<C-w>q")
+vim.keymap.set("n", "<C-q>", "<C-w>q")
