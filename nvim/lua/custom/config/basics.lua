@@ -10,6 +10,8 @@ vim.opt.expandtab = true
 vim.opt.smarttab = false
 vim.opt.tabstop = 4
 
+vim.cmd("set nohlsearch")
+
 vim.opt.scrolloff = 3
 
 -- Save on <C-s>
