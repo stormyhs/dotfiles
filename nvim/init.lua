@@ -387,8 +387,7 @@ require("lazy").setup({
 		--- @type blink.cmp.Config
 		opts = {
 			keymap = {
-				preset = "default",
-				['<CR>'] = { 'select_and_accept' }
+				preset = "enter",
 			},
 
 			appearance = {
