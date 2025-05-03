@@ -2,8 +2,8 @@
 
 local themes = {
 	{ name = "monokai-pro-spectrum", mode = "dark" },
+	{ name = "catppuccin-latte", mode = "light" },
 	{ name = "tokyonight-night", mode = "dark" },
-	{ name = "tokyonight-day", mode = "light" },
 }
 
 local themeIndex = 1 -- lua
