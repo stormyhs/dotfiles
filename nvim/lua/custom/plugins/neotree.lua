@@ -21,9 +21,9 @@ return {
                 filtered_items = {
                     visible = false,
                     hide_dotfiles = true,
-                    hide_gitignored = true,
+                    hide_gitignored = false,
                     never_show = {
-                        "node_modules"
+                        "node_modules", "target", "build", "Cargo.lock", "bun.lock", "deno.lock", "package.lock"
                     }
                 },
             },
